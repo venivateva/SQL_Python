@@ -31,7 +31,7 @@ db_password = config['mssql']['db_password']
 #establish connection to the server
 connection_string = 'Driver={SQL Server};Server=' + server_host + ';Database=' + db_name + ';UID=' + db_user + ';PWD=' + db_password +';Authentication=ActiveDirectoryPassword'+';'
 db = pyodbc.connect(connection_string)
-SQL = 'SELECT [SubscriptionID],[OwnerID],[Report_OID],reports.Name,[LastStatus],[EventType],[LastRunTime],[Parameters],[DataSettings],[DeliveryExtension] FROM [ReportServer_PowerBI].[dbo].[Subscriptions] subscription inner join dbo.Catalog reports on subscription.Report_OID = reports.ItemID '
+SQL = ''
 db.cursor().execute(SQL)
 
 # the data from sql, manipulate to extract fields
