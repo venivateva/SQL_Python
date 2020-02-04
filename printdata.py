@@ -42,7 +42,7 @@ column=data['LastStatus']
 column=column.to_list()
 
 if 'Data Refresh failed' in column:
-     value=column.index('Accounts')
+     value=column.index('LastStatus')
      column[value]=str(column[value]).strip('[]')
 #column=[]
 
