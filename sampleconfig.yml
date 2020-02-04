@@ -1,0 +1,10 @@
+mssql:
+    server_host: 
+    db_name: 
+    db_user: 
+    db_password: 
+email:
+    smtp: 
+    to: 
+    from: 
+    subject: 

@@ -29,23 +29,23 @@ db_password = config['mssql']['db_password']
 
 
 #establish connection to the server
-connection_string = 'Driver={SQL Server};Server=' + server_host + ';Database=' + db_name + ';UID=' + db_user + ';PWD=' + db_password + ';'
+connection_string = 'Driver={SQL Server};Server=' + server_host + ';Database=' + db_name + ';UID=' + db_user + ';PWD=' + db_password +';Authentication=ActiveDirectoryPassword'+';'
 db = pyodbc.connect(connection_string)
-SQL = 'select top 100 * from [EQCAS].[dbo].[cas_report_template]'
+SQL = 'SELECT [SubscriptionID],[OwnerID],[Report_OID],reports.Name,[LastStatus],[EventType],[LastRunTime],[Parameters],[DataSettings],[DeliveryExtension] FROM [ReportServer_PowerBI].[dbo].[Subscriptions] subscription inner join dbo.Catalog reports on subscription.Report_OID = reports.ItemID '
 db.cursor().execute(SQL)
 
-# the data from sql, manipulate with pandas
+# the data from sql, manipulate to extract fields
 
 data=pan.read_sql(SQL,db)
 pan.DataFrame=data
-column=data['name']
+column=data['LastStatus']
 column=column.to_list()
 
-if 'Accounts' in column:
+if 'Data Refresh failed' in column:
      value=column.index('Accounts')
      column[value]=str(column[value]).strip('[]')
 #column=[]
 
-SendEmail(column[value])
+#SendEmail(column[value])
 print(column[value])
 
