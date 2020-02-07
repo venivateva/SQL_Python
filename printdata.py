@@ -29,23 +29,25 @@ db_password = config['mssql']['db_password']
 
 
 #establish connection to the server
-connection_string = 'Driver={SQL Server};Server=' + server_host + ';Database=' + db_name + ';UID=' + db_user + ';PWD=' + db_password +';Authentication=ActiveDirectoryPassword'+';'
+connection_string = 'Driver={SQL Server};Server=' + server_host + ';Database=' + db_name + ';UID=' + db_user + ';PWD=' + db_password +';'
 db = pyodbc.connect(connection_string)
 SQL = ''
 db.cursor().execute(SQL)
 
 # the data from sql, manipulate to extract fields
 
-data=pan.read_sql(SQL,db)
-pan.DataFrame=data
-column=data['LastStatus']
-column=column.to_list()
+#data=pan.read_sql(SQL,db)
 
-if 'Data Refresh failed' in column:
-     value=column.index('LastStatus')
-     column[value]=str(column[value]).strip('[]')
-#column=[]
+df=pan.DataFrame(pan.read_sql(SQL,db))
 
-#SendEmail(column[value])
-print(column[value])
+columns=df[['column1','column2']]
+
+
+myquery=columns.query('column1.str.contains("substring")',engine='python')
+if myquery.empty == True:
+     pass
+else:
+    SendEmail("Report Data refresh failed : " + str(myquery.values).strip('[]'))
+
+
 
