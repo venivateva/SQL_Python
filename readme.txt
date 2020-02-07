@@ -1,3 +1,5 @@
+(still in development, more functionality to be added)
+
 
 SQL Read and Email Notification
 
